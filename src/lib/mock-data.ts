@@ -24,7 +24,7 @@ import type {
   SubmissionWithLearner,
   AssignmentWithSubmissions,
   MessageWithProfiles,
-} from '@/types/database';
+} from '../types/database';
 
 // ---------------------------------------------------------------------
 // 1. PROFILES (6 Grounded Accounts: 1 Admin, 2 Professors, 3 Learners)

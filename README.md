@@ -10,9 +10,9 @@ Built specifically with accessibility in mind for the Deaf and FSL community, fe
 
 - **Framework:** Next.js 14 (App Router) + React 18 + TypeScript
 - **Styling:** Tailwind CSS (Accessible high-contrast palette)
-- **Database & Auth:** Supabase (PostgreSQL, Row Level Security, Supabase Auth)
-- **State & Data Management:** Dual-mode Supabase SSR with reactive client state engine
-- **Testing:** Native Node.js test runner + Comprehensive E2E Test Suite (47 unit/integration tests, 37 E2E tests)
+- **Database:** Dual Engine — Embedded SQLite (`better-sqlite3` in `data/fsl_workshop.db`) + Supabase PostgreSQL support
+- **State & Data Management:** Direct SQLite query repository (`src/lib/sqlite/`), Unified REST API (`/api/sqlite`), and reactive client store
+- **Testing:** Native Node.js test runner + Comprehensive E2E Test Suite (48 unit/integration tests, 37 E2E tests)
 
 ---
 
@@ -65,9 +65,9 @@ Built specifically with accessibility in mind for the Deaf and FSL community, fe
    npm install
    ```
 
-3. **Configure Environment:**
+3. **Initialize SQLite Database (All 14 Tables + Demo Seed Data):**
    ```bash
-   cp .env.local.example .env.local
+   npm run db:init
    ```
 
 4. **Run the development server:**

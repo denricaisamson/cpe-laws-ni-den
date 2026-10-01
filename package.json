@@ -8,11 +8,13 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/milestone1.test.mjs tests/milestone2.test.mjs tests/milestone3.test.mjs tests/milestone4.test.mjs tests/milestone5.test.mjs tests/milestone6.test.mjs tests/e2e/tier5-adversarial-hardening.test.mjs"
+    "db:init": "node scripts/init-sqlite.mjs",
+    "test": "node --test tests/milestone1.test.mjs tests/milestone2.test.mjs tests/milestone3.test.mjs tests/milestone4.test.mjs tests/milestone5.test.mjs tests/milestone6.test.mjs tests/sqlite-migration.test.mjs tests/e2e/tier5-adversarial-hardening.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.45.4",
+    "better-sqlite3": "^13.0.3",
     "clsx": "^2.1.1",
     "lucide-react": "^0.446.0",
     "next": "^14.2.15",
@@ -21,6 +23,7 @@
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^20.16.10",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
