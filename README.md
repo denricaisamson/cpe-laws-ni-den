@@ -10,9 +10,9 @@ Built specifically with accessibility in mind for the Deaf and FSL community, fe
 
 - **Framework:** Next.js 14 (App Router) + React 18 + TypeScript
 - **Styling:** Tailwind CSS (Accessible high-contrast palette)
-- **Database:** Dual Engine — Embedded SQLite (`better-sqlite3` in `data/fsl_workshop.db`) + Supabase PostgreSQL support
-- **State & Data Management:** Direct SQLite query repository (`src/lib/sqlite/`), Unified REST API (`/api/sqlite`), and reactive client store
-- **Testing:** Native Node.js test runner + Comprehensive E2E Test Suite (48 unit/integration tests, 37 E2E tests)
+- **Database & Auth:** Supabase (PostgreSQL, Row Level Security, Supabase Auth)
+- **Deployment Platform:** Vercel + GitHub + Supabase
+- **Testing:** Native Node.js test runner + Comprehensive E2E Test Suite (47 unit/integration tests, 37 E2E tests)
 
 ---
 
@@ -46,13 +46,26 @@ Built specifically with accessibility in mind for the Deaf and FSL community, fe
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Deployment Guide (Vercel + Supabase + GitHub)
 
-### Prerequisites
-- Node.js 18+ or 20+
-- npm
+### 1. Supabase Setup
+1. Create a free project at [supabase.com](https://supabase.com/).
+2. Open the **SQL Editor** in your Supabase dashboard.
+3. Paste and run [`supabase/migrations/20260928000000_init_fsl_schema.sql`](file:///c:/Projects/cpe%20L%20ni%20den/supabase/migrations/20260928000000_init_fsl_schema.sql) (creates all 14 tables and security policies).
+4. Paste and run [`supabase/seed.sql`](file:///c:/Projects/cpe%20L%20ni%20den/supabase/seed.sql) (seeds demo accounts and workshops).
+5. Copy your **Project URL** and **`anon` public key** from **Project Settings $\rightarrow$ API**.
 
-### Installation & Local Setup
+### 2. Vercel Deployment
+1. Go to [vercel.com](https://vercel.com/) and click **Add New Project**.
+2. Select your repository: `denricaisamson/cpe-laws-ni-den`.
+3. Under **Environment Variables**, add:
+   - `NEXT_PUBLIC_SUPABASE_URL` = *(Your Supabase URL)*
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = *(Your Supabase Anon Key)*
+4. Click **Deploy**!
+
+---
+
+## 💻 Local Development
 
 1. **Clone the repository:**
    ```bash
@@ -65,9 +78,9 @@ Built specifically with accessibility in mind for the Deaf and FSL community, fe
    npm install
    ```
 
-3. **Initialize SQLite Database (All 14 Tables + Demo Seed Data):**
+3. **Configure Environment:**
    ```bash
-   npm run db:init
+   cp .env.local.example .env.local
    ```
 
 4. **Run the development server:**

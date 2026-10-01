@@ -52,7 +52,8 @@ export function Navbar({ currentRole, currentUserName }: NavbarProps) {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b-2 border-slate-300 shadow-sm">
+    <header className="sticky top-0 z-40 bg-white border-b-2 border-slate-200 shadow-xs">
+      <div className="h-1 bg-gradient-to-r from-blue-900 via-blue-700 to-amber-500 w-full" aria-hidden="true" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo & Brand */}
@@ -68,11 +69,12 @@ export function Navbar({ currentRole, currentUserName }: NavbarProps) {
                 <span className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-1.5 leading-none">
                   FSL WORKSHOP
                   <span className="bg-blue-100 text-blue-900 text-[10px] font-black px-2 py-0.5 rounded border border-blue-300">
-                    SDEAS
+                    SDEAS • DLSU
                   </span>
                 </span>
-                <span className="text-xs font-bold text-slate-600 mt-1">
-                  Filipino Sign Language Learning System
+                <span className="text-xs font-bold text-slate-600 mt-1 flex items-center gap-1">
+                  <span>Filipino Sign Language Learning System</span>
+                  <span className="text-amber-600 font-extrabold text-[11px] hidden sm:inline">• De La Salle</span>
                 </span>
               </div>
             </Link>

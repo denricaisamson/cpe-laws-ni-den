@@ -28,9 +28,3 @@ Thumbs.db
 
 # Agent state
 .agents/
-
-# SQLite Database Files
-data/*.db
-data/*.db-wal
-data/*.db-shm
-data/*.sqlite

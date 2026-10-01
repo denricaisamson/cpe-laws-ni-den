@@ -15,8 +15,8 @@ export default async function HomePage() {
       <Navbar currentRole={session?.role} currentUserName={session?.profile.name} />
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center max-w-3xl mx-auto space-y-4">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-semibold">
-          <span>Accessible Deaf & FSL Education Platform</span>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-100 text-blue-900 border border-blue-300 text-sm font-bold">
+          <span>⭐ De La Salle • SDEAS Accessible Deaf & FSL Education Platform</span>
         </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
           Filipino Sign Language Workshop System
