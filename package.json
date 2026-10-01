@@ -5,11 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/start-server.mjs",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "db:init": "node scripts/init-sqlite.mjs",
     "test": "node --test tests/milestone1.test.mjs tests/milestone2.test.mjs tests/milestone3.test.mjs tests/milestone4.test.mjs tests/milestone5.test.mjs tests/milestone6.test.mjs tests/sqlite-migration.test.mjs tests/e2e/tier5-adversarial-hardening.test.mjs"
+  },
+  "engines": {
+    "node": ">=18.17.0"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
