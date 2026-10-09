@@ -80,5 +80,33 @@ export async function getServerUserSession(): Promise<UserSession | null> {
     };
   }
 
+  // If cookie is a direct user UUID or ID not in mock list, check Supabase profiles
+  if (demoCookie && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    try {
+      const { createClient: createAdminClient } = await import('@supabase/supabase-js');
+      const supabaseAdmin = createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.SUPABASE_SERVICE_ROLE_KEY,
+        { auth: { autoRefreshToken: false, persistSession: false } }
+      );
+      const cleanId = decodeURIComponent(demoCookie).trim();
+      const { data: dbProfile } = await supabaseAdmin
+        .from('profiles')
+        .select('*')
+        .eq('id', cleanId)
+        .single();
+
+      if (dbProfile) {
+        return {
+          user: { id: dbProfile.id, email: dbProfile.email },
+          profile: dbProfile as Profile,
+          role: dbProfile.role as UserRole,
+        };
+      }
+    } catch {
+      // ignore
+    }
+  }
+
   return null;
 }

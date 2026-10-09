@@ -102,10 +102,15 @@ export function parseDemoSession(cookieValue: string | undefined | null): Profil
   if (!cookieValue) return null;
 
   try {
-    if (cookieValue.startsWith('{')) {
-      const parsed = JSON.parse(cookieValue);
-      if (parsed.id) return findDemoProfile(parsed.id) || parsed;
-      if (parsed.email) return findDemoProfile(parsed.email) || parsed;
+    const raw = cookieValue.trim();
+    const decoded = decodeURIComponent(raw);
+    const target = decoded.startsWith('{') ? decoded : raw.startsWith('{') ? raw : null;
+
+    if (target) {
+      const parsed = JSON.parse(target);
+      if (parsed.id && parsed.name && parsed.role) return parsed as Profile;
+      if (parsed.id) return findDemoProfile(parsed.id) || (parsed as Profile);
+      if (parsed.email) return findDemoProfile(parsed.email) || (parsed as Profile);
       if (parsed.role) return findDemoProfile(parsed.role) || null;
     }
   } catch {
@@ -114,3 +119,4 @@ export function parseDemoSession(cookieValue: string | undefined | null): Profil
 
   return findDemoProfile(cookieValue);
 }
+

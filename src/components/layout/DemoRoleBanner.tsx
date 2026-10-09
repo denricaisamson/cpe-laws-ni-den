@@ -20,6 +20,9 @@ export function DemoRoleBanner({ currentRole, currentUserName }: DemoRoleBannerP
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    if (currentRole) setActiveRole(currentRole);
+    if (currentUserName) setActiveName(currentUserName);
+
     // Read cookie directly to sync if client state changes
     const cookie = document.cookie
       .split('; ')
@@ -27,13 +30,26 @@ export function DemoRoleBanner({ currentRole, currentUserName }: DemoRoleBannerP
       ?.split('=')[1];
 
     if (cookie) {
+      try {
+        const decoded = decodeURIComponent(cookie.trim());
+        const target = decoded.startsWith('{') ? decoded : cookie.trim().startsWith('{') ? cookie.trim() : null;
+        if (target) {
+          const parsed = JSON.parse(target);
+          if (parsed.role) setActiveRole(parsed.role);
+          if (parsed.name) setActiveName(parsed.name);
+          return;
+        }
+      } catch {
+        // Not a JSON cookie
+      }
+
       const match = DEMO_USERS.find((u) => u.id === cookie || u.role === cookie);
       if (match) {
         setActiveRole(match.role);
         setActiveName(match.name);
       }
     }
-  }, [pathname]);
+  }, [pathname, currentRole, currentUserName]);
 
   const handleSwitchRole = async (targetRole: UserRole) => {
     setIsLoading(true);
@@ -75,6 +91,11 @@ export function DemoRoleBanner({ currentRole, currentUserName }: DemoRoleBannerP
     try {
       document.cookie = `${DEMO_COOKIE_NAME}=; path=/; max-age=0; SameSite=Lax`;
       await fetch('/api/auth/demo-session', { method: 'DELETE' });
+      try {
+        const { createClient } = await import('@/lib/supabase/client');
+        const supabase = createClient();
+        await supabase.auth.signOut();
+      } catch {}
       setActiveRole(null);
       setActiveName(null);
       router.push('/login');
@@ -89,9 +110,9 @@ export function DemoRoleBanner({ currentRole, currentUserName }: DemoRoleBannerP
   return (
     <aside
       aria-label="Testing and Role Switcher Toolbar"
-      className="bg-slate-900 text-white border-b-2 border-amber-400 text-xs shadow-md sticky top-0 z-50 transition-all"
+      className="w-full bg-slate-900 text-white border-b-2 border-amber-400 text-xs shadow-md relative z-30 transition-all"
     >
-      <div className="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <span className="bg-amber-400 text-slate-950 font-black px-2 py-0.5 rounded text-[11px] tracking-wider uppercase">
             Demo Tool

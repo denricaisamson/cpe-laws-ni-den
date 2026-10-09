@@ -27,51 +27,54 @@ export default function RegisterPage() {
     setIsLoading(true);
     setErrorMessage(null);
 
+    const cleanName = name.trim();
+    const cleanEmail = email.trim();
+
     try {
-      const supabase = createClient();
-      let newUserId = `c${Date.now()}`;
-
-      // 1. Try real Supabase auth if configured
-      try {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              name,
-              role: 'learner',
-            },
-          },
-        });
-
-        if (!error && data.user) {
-          newUserId = data.user.id;
-          // Insert profile into database
-          await (supabase as any).from('profiles').insert({
-            id: newUserId,
-            name,
-            email,
-            role: 'learner',
-            bio: bio || 'FSL Enthusiast',
-          });
-        }
-      } catch {
-        // Fall back to demo session
-      }
-
-      // Establish session cookie for learner
-      document.cookie = `${DEMO_COOKIE_NAME}=${newUserId}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
-
-      // Set cookie in API
-      await fetch('/api/auth/demo-session', {
+      // 1. Call server registration endpoint
+      const regRes = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: newUserId,
-          role: 'learner',
-          email,
-          name,
+          name: cleanName,
+          email: cleanEmail,
+          password,
+          bio: bio.trim() || undefined,
         }),
+      });
+
+      const regData = await regRes.json();
+      if (!regRes.ok || !regData.success) {
+        throw new Error(regData.error || 'Registration failed. Please try again.');
+      }
+
+      // 2. Authenticate the Supabase browser client so that its tokens/cookies are stored
+      const supabase = createClient();
+      try {
+        await supabase.auth.signInWithPassword({
+          email: cleanEmail,
+          password,
+        });
+      } catch {
+        // Fallback session is already set by /api/auth/register
+      }
+
+      // 3. Set client-side session cookie with real user profile
+      const sessionData = {
+        id: regData.profile.id,
+        name: regData.profile.name,
+        email: regData.profile.email,
+        role: regData.profile.role,
+      };
+
+      const cookieVal = encodeURIComponent(JSON.stringify(sessionData));
+      document.cookie = `${DEMO_COOKIE_NAME}=${cookieVal}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+
+      // 4. Synchronize demo-session route
+      await fetch('/api/auth/demo-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(sessionData),
       });
 
       router.push('/learner');

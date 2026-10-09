@@ -33,66 +33,82 @@ function LoginForm() {
     setIsLoading(true);
     setErrorMessage(null);
 
+    const cleanEmail = email.toLowerCase().trim();
+
     try {
       const supabase = createClient();
       let signedInProfile = null;
+      let authError: string | null = null;
 
       // 1. Try real Supabase auth if service is configured
       try {
         const { data, error } = await supabase.auth.signInWithPassword({
-          email,
+          email: cleanEmail,
           password,
         });
+
         if (!error && data.user) {
           const { data: profile } = await supabase
             .from('profiles')
             .select('*')
             .eq('id', data.user.id)
             .single();
-          signedInProfile = profile;
+
+          if (profile) {
+            signedInProfile = profile;
+          } else {
+            signedInProfile = {
+              id: data.user.id,
+              name: data.user.user_metadata?.name || email.split('@')[0],
+              email: data.user.email || cleanEmail,
+              role: (data.user.user_metadata?.role as any) || 'learner',
+            };
+          }
+        } else if (error) {
+          authError = error.message;
         }
-      } catch {
-        // Fall back to demo session
+      } catch (err: any) {
+        authError = err.message || null;
       }
 
-      // 2. Fall back to demo session match
-      const demoUser = DEMO_USERS.find(
-        (u) => u.email.toLowerCase() === email.toLowerCase().trim()
-      );
-
-      if (!signedInProfile && demoUser) {
-        signedInProfile = {
-          id: demoUser.id,
-          name: demoUser.name,
-          email: demoUser.email,
-          role: demoUser.role,
-        };
-      }
-
-      if (!signedInProfile && !demoUser) {
-        // If not in demo list and Supabase didn't authenticate, check if it's a valid demo format
-        if (email.includes('admin')) {
-          const u = DEMO_USERS.find((x) => x.role === 'admin')!;
-          signedInProfile = { id: u.id, name: u.name, email, role: 'admin' };
-        } else if (email.includes('prof')) {
-          const u = DEMO_USERS.find((x) => x.role === 'professor')!;
-          signedInProfile = { id: u.id, name: u.name, email, role: 'professor' };
-        } else {
-          const u = DEMO_USERS.find((x) => x.role === 'learner')!;
-          signedInProfile = { id: u.id, name: u.name, email, role: 'learner' };
-        }
-      }
-
+      // 2. If not authenticated with Supabase, check if matching known demo accounts
       if (!signedInProfile) {
-        throw new Error('Invalid credentials. Please verify your email or select a demo account.');
+        const demoUser = DEMO_USERS.find(
+          (u) => u.email.toLowerCase() === cleanEmail
+        );
+
+        if (demoUser) {
+          signedInProfile = {
+            id: demoUser.id,
+            name: demoUser.name,
+            email: demoUser.email,
+            role: demoUser.role,
+          };
+        }
       }
+
+      // 3. If neither matched, fail with clear error instead of falling back to Juan Dela Cruz
+      if (!signedInProfile) {
+        throw new Error(
+          authError ||
+          'Invalid email or password. Please verify your credentials or select a demo account below.'
+        );
+      }
+
+      const sessionData = {
+        id: signedInProfile.id,
+        name: signedInProfile.name,
+        email: signedInProfile.email,
+        role: signedInProfile.role,
+      };
 
       // Set cookie and server session
-      document.cookie = `${DEMO_COOKIE_NAME}=${signedInProfile.id}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+      const cookieVal = encodeURIComponent(JSON.stringify(sessionData));
+      document.cookie = `${DEMO_COOKIE_NAME}=${cookieVal}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
       await fetch('/api/auth/demo-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: signedInProfile.id, role: signedInProfile.role }),
+        body: JSON.stringify(sessionData),
       });
 
       const destination =
@@ -118,11 +134,19 @@ function LoginForm() {
     setIsLoading(true);
 
     try {
-      document.cookie = `${DEMO_COOKIE_NAME}=${user.id}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
+      const sessionData = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      };
+
+      const cookieVal = encodeURIComponent(JSON.stringify(sessionData));
+      document.cookie = `${DEMO_COOKIE_NAME}=${cookieVal}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Lax`;
       await fetch('/api/auth/demo-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id, role: user.role }),
+        body: JSON.stringify(sessionData),
       });
 
       const destination =

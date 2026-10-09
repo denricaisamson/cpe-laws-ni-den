@@ -25,17 +25,15 @@ export default async function LearnerDashboardPage() {
   const userId = session?.user.id;
 
   // Find learner's enrollments from mock data
-  const userEnrollments = mockEnrollments.filter(
-    (e) => e.learner_id === userId || e.learner_id === 'c0000000-0000-0000-0000-000000000002'
-  );
+  const userEnrollments = mockEnrollments.filter((e) => e.learner_id === userId);
 
   const activeEnrollment = userEnrollments.find((e) => e.status === 'enrolled') || userEnrollments[0];
   const activeSchedule = activeEnrollment
     ? mockSchedules.find((s) => s.id === activeEnrollment.schedule_id)
-    : mockSchedules[1];
+    : null;
   const activeWorkshop = activeSchedule
     ? mockWorkshops.find((w) => w.id === activeSchedule.workshop_id)
-    : mockWorkshops[1];
+    : null;
 
   const featuredVideo = mockVideos[0]; // Alphabet & Fingerspelling
 
@@ -78,71 +76,95 @@ export default async function LearnerDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column (2 Cols): Active Enrolled Section Card */}
         <div className="lg:col-span-2 space-y-6">
-          <Card className="border-2 border-slate-300 shadow-sm">
-            <CardHeader className="bg-slate-50 border-b-2 border-slate-200 flex flex-row items-center justify-between">
-              <div>
-                <span className="text-xs font-black uppercase text-blue-800 tracking-wider">
-                  Active Enrollment
-                </span>
-                <CardTitle className="text-2xl mt-1">
-                  {activeWorkshop?.title || 'FSL 102: Intermediate Expressions'}
-                </CardTitle>
+          {activeEnrollment && activeWorkshop && activeSchedule ? (
+            <Card className="border-2 border-slate-300 shadow-sm">
+              <CardHeader className="bg-slate-50 border-b-2 border-slate-200 flex flex-row items-center justify-between">
+                <div>
+                  <span className="text-xs font-black uppercase text-blue-800 tracking-wider">
+                    Active Enrollment
+                  </span>
+                  <CardTitle className="text-2xl mt-1">
+                    {activeWorkshop.title}
+                  </CardTitle>
+                  <CardDescription>
+                    Level {activeWorkshop.level} • {activeSchedule.day_time}
+                  </CardDescription>
+                </div>
+                <Badge variant="enrolled" />
+              </CardHeader>
+
+              <CardContent className="p-6 space-y-6">
+                {/* Meeting Link & Schedule Card */}
+                <div className="p-4 bg-blue-50 border-2 border-blue-200 rounded-xl flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold">
+                      <Calendar className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-blue-900 uppercase">Live Class Session</div>
+                      <div className="font-extrabold text-slate-900">{activeSchedule.day_time}</div>
+                      <div className="text-xs text-slate-600 font-medium">Virtual Classroom on Google Meet / Zoom</div>
+                    </div>
+                  </div>
+
+                  {activeSchedule.meeting_link ? (
+                    <a
+                      href={activeSchedule.meeting_link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center justify-center min-h-[44px] px-5 py-2.5 font-bold text-white bg-blue-700 hover:bg-blue-800 rounded-lg border-2 border-blue-800 shadow-sm focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600"
+                    >
+                      <span>Join Class Meeting</span>
+                      <ExternalLink className="w-4 h-4 ml-2" />
+                    </a>
+                  ) : (
+                    <span className="text-sm font-bold text-slate-500 italic">Meeting link will be posted soon</span>
+                  )}
+                </div>
+
+                {/* Recent Class Announcement */}
+                <div className="border-t border-slate-200 pt-4">
+                  <h4 className="text-sm font-black uppercase text-slate-700 tracking-wider mb-2">
+                    Class Announcement
+                  </h4>
+                  <div className="p-4 bg-slate-50 border-2 border-slate-200 rounded-xl">
+                    <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-1">
+                      <span>Prof. Rommel Agravante (Master Teacher)</span>
+                      <span>Recent</span>
+                    </div>
+                    <h5 className="font-bold text-slate-900 text-base">
+                      {mockAnnouncements[0]?.title || 'Welcome to FSL Workshop!'}
+                    </h5>
+                    <p className="text-sm text-slate-700 font-medium mt-1">
+                      {mockAnnouncements[0]?.body || 'Please ensure good lighting and clear camera view for visual signing sessions.'}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="border-2 border-slate-300 shadow-sm">
+              <CardHeader className="bg-slate-50 border-b-2 border-slate-200">
+                <CardTitle className="text-2xl">Start Your FSL Journey</CardTitle>
                 <CardDescription>
-                  Level {activeWorkshop?.level || 2} • {activeSchedule?.day_time}
+                  You are not enrolled in any active workshop cohorts yet.
                 </CardDescription>
-              </div>
-              <Badge variant="enrolled" />
-            </CardHeader>
-
-            <CardContent className="p-6 space-y-6">
-              {/* Meeting Link & Schedule Card */}
-              <div className="p-4 bg-blue-50 border-2 border-blue-200 rounded-xl flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold">
-                    <Calendar className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-blue-900 uppercase">Live Class Session</div>
-                    <div className="font-extrabold text-slate-900">{activeSchedule?.day_time}</div>
-                    <div className="text-xs text-slate-600 font-medium">Virtual Classroom on Google Meet / Zoom</div>
-                  </div>
+              </CardHeader>
+              <CardContent className="p-6 space-y-4">
+                <p className="text-sm text-slate-700">
+                  Begin with <strong>FSL 101: Basic Fingerspelling, Greetings & Survival Signs</strong> or explore other levels taught by native Deaf teachers.
+                </p>
+                <div>
+                  <Link href="/learner/workshops">
+                    <Button variant="primary" size="lg" className="font-bold">
+                      <BookOpen className="w-5 h-5 mr-2" />
+                      Browse & Enroll in Workshops
+                    </Button>
+                  </Link>
                 </div>
-
-                {activeSchedule?.meeting_link ? (
-                  <a
-                    href={activeSchedule.meeting_link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center justify-center min-h-[44px] px-5 py-2.5 font-bold text-white bg-blue-700 hover:bg-blue-800 rounded-lg border-2 border-blue-800 shadow-sm focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-600"
-                  >
-                    <span>Join Class Meeting</span>
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </a>
-                ) : (
-                  <span className="text-sm font-bold text-slate-500 italic">Meeting link will be posted soon</span>
-                )}
-              </div>
-
-              {/* Recent Class Announcement */}
-              <div className="border-t border-slate-200 pt-4">
-                <h4 className="text-sm font-black uppercase text-slate-700 tracking-wider mb-2">
-                  Class Announcement
-                </h4>
-                <div className="p-4 bg-slate-50 border-2 border-slate-200 rounded-xl">
-                  <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-1">
-                    <span>Prof. Rommel Agravante (Master Teacher)</span>
-                    <span>Recent</span>
-                  </div>
-                  <h5 className="font-bold text-slate-900 text-base">
-                    {mockAnnouncements[0]?.title || 'Welcome to FSL Workshop!'}
-                  </h5>
-                  <p className="text-sm text-slate-700 font-medium mt-1">
-                    {mockAnnouncements[0]?.body || 'Please ensure good lighting and clear camera view for visual signing sessions.'}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Featured Practice Video Player */}
           <div>
