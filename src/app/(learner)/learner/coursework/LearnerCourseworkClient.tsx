@@ -514,7 +514,7 @@ export function LearnerCourseworkClient({
               <span className="text-blue-900 font-medium">Testing in demo mode?</span>
               <button
                 type="button"
-                onClick={() => setVideoUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ')}
+                onClick={() => setVideoUrl('https://www.youtube.com/watch?v=36GlmDTYs6s&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=1')}
                 className="font-bold text-blue-700 hover:text-blue-900 underline"
               >
                 Insert Sample YouTube Video

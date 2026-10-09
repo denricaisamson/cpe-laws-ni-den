@@ -315,7 +315,7 @@ VALUES
     '60000000-0000-0000-0000-000000000001',
     '70000000-0000-0000-0000-000000000001',
     'c0000000-0000-0000-0000-000000000001',
-    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    'https://www.youtube.com/watch?v=36GlmDTYs6s&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=1',
     95.00,
     'Clear hand configuration and great eye contact. Make sure to keep the palm facing forward during the letters K and P.',
     now() - INTERVAL '3 days',
@@ -325,7 +325,7 @@ VALUES
     '60000000-0000-0000-0000-000000000002',
     '70000000-0000-0000-0000-000000000002',
     'c0000000-0000-0000-0000-000000000002',
-    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    'https://www.youtube.com/watch?v=0aeMv3ihAA4&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=4',
     92.00,
     'Terrific spatial mapping and role shifting. Pay close attention to timing when alternating characters.',
     now() - INTERVAL '2 days',
@@ -380,56 +380,92 @@ VALUES
   (
     '40000000-0000-0000-0000-000000000001',
     1,
-    'FSL Manual Alphabet A-Z: Proper Finger Orientation & Common Pitfalls',
-    'Alphabet / Fingerspelling',
-    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    'Basic Filipino Sign Language Tutorial (Part 1)',
+    'Common Expressions',
+    'https://www.youtube.com/watch?v=36GlmDTYs6s&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=1',
     'b0000000-0000-0000-0000-000000000001',
-    'Comprehensive demonstration of all 26 letters of the Filipino Sign Language manual alphabet with front and profile views.'
+    'Foundational introduction to Filipino Sign Language expressions, basic hand shapes, and visual gestures.'
   ),
   (
     '40000000-0000-0000-0000-000000000002',
     1,
-    'Everyday FSL Greetings: Magandang Umaga, Kamusta Ka, and Salamat',
-    'Basic Greetings',
-    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    'Alphabet (Alpabetong) Filipino Sign Language Tutorial',
+    'Alphabet / Fingerspelling',
+    'https://www.youtube.com/watch?v=iYpTJ5cEl9Y&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=2',
     'b0000000-0000-0000-0000-000000000001',
-    'Essential greetings and visual politeness markers used daily in Filipino Deaf culture.'
+    'Comprehensive demonstration of all 26 letters of the Filipino Sign Language manual alphabet with front and profile views.'
   ),
   (
     '40000000-0000-0000-0000-000000000003',
     1,
-    'Counting in FSL: Numbers 1 to 100 and Philippine Currency Signs',
-    'Numbers',
-    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    'b0000000-0000-0000-0000-000000000002',
-    'Clear demonstration of numbers, palm orientation rules, and Philippine peso sign conventions.'
+    'Basic Filipino Sign Language Tutorial (Part 2)',
+    'Common Expressions',
+    'https://www.youtube.com/watch?v=e6MYgcbUKqQ&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=3',
+    'b0000000-0000-0000-0000-000000000001',
+    'Continuing practice for essential survival expressions, questions, and polite conversation markers.'
   ),
   (
     '40000000-0000-0000-0000-000000000004',
-    2,
-    'Survival Expressions & Question Markers (Sino, Ano, Saan, Kailan, Bakit, Paano)',
-    'Common Expressions',
-    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    1,
+    'Meet and Greet Filipino Sign Language Tutorial',
+    'Basic Greetings',
+    'https://www.youtube.com/watch?v=0aeMv3ihAA4&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=4',
     'b0000000-0000-0000-0000-000000000001',
-    'Essential non-manual eyebrow markers for WH-questions and Yes/No questions in FSL.'
+    'Meeting someone for the first time, introducing yourself, and exchanging greetings in FSL.'
   ),
   (
     '40000000-0000-0000-0000-000000000005',
     2,
-    'Casual Deaf Coffee Chat: Ordering Food, Asking Directions, and Making Plans',
+    'Family Signs in Filipino Sign Language Tutorial',
     'Everyday Conversations',
-    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    'https://www.youtube.com/watch?v=BVMaquZJGOM&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=5',
     'b0000000-0000-0000-0000-000000000002',
-    'Two Deaf instructors demonstrating authentic turn-taking and visual attention-getting techniques.'
+    'Signs representing family members, relatives, and conversational domestic relationships.'
   ),
   (
     '40000000-0000-0000-0000-000000000006',
-    3,
-    'Advanced FSL Idioms, Metro Manila Regional Variations, and Specialized Vocabulary',
-    'Vocabulary Lessons',
-    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    1,
+    'Number and Ordinal Numbers Filipino Sign Language Tutorial',
+    'Numbers',
+    'https://www.youtube.com/watch?v=Wl-pkKk82Nc&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=6',
     'b0000000-0000-0000-0000-000000000002',
-    'Masterclass exploring idiomatic signing and linguistic nuances across Philippine regions.'
+    'Clear demonstration of cardinal numbers, ordinal numbers, and palm orientation rules in FSL.'
+  ),
+  (
+    '40000000-0000-0000-0000-000000000007',
+    1,
+    'Basic Greetings in Filipino Sign Language Tutorial',
+    'Basic Greetings',
+    'https://www.youtube.com/watch?v=QwmhjIKL2jI&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=7',
+    'b0000000-0000-0000-0000-000000000001',
+    'Essential morning, afternoon, and evening greetings and visual politeness markers used daily.'
+  ),
+  (
+    '40000000-0000-0000-0000-000000000008',
+    2,
+    'Conversational Turn-Taking & Greetings Drill',
+    'Everyday Conversations',
+    'https://www.youtube.com/watch?v=QwmhjIKL2jI&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=8',
+    'b0000000-0000-0000-0000-000000000002',
+    'Deaf conversational exchange demonstrating turn-taking, pauses, and visual attention-getting techniques.'
+  ),
+  (
+    '40000000-0000-0000-0000-000000000009',
+    2,
+    'Weather (Panahon) Filipino Sign Language Tutorial',
+    'Vocabulary Lessons',
+    'https://www.youtube.com/watch?v=vshlTKwNLgw&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=9',
+    'b0000000-0000-0000-0000-000000000002',
+    'Vocabulary signs for weather conditions, climate, seasons, and natural elements.'
+  ),
+  (
+    '40000000-0000-0000-0000-000000000010',
+    3,
+    'Color (Kulay) Filipino Sign Language Tutorial',
+    'Vocabulary Lessons',
+    'https://www.youtube.com/watch?v=ePeYEEG3wzQ&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=14',
+    'b0000000-0000-0000-0000-000000000002',
+    'Masterclass and vocabulary lessons covering primary and secondary colors and descriptive signing.'
   )
 ON CONFLICT (id) DO UPDATE SET
   title = EXCLUDED.title,

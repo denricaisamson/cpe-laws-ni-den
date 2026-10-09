@@ -161,9 +161,9 @@ export default async function LearnerDashboardPage() {
             </div>
 
             <AccessibleVideoPlayer
-              url={featuredVideo?.video_url || 'https://storage.fsl.ph/videos/fsl-alphabet.mp4'}
-              title={featuredVideo?.title || 'FSL Alphabet A to Z & Manual Fingerspelling Guide'}
-              category={featuredVideo?.category || 'Alphabet / Fingerspelling'}
+              url={featuredVideo?.video_url || 'https://www.youtube.com/watch?v=36GlmDTYs6s&list=PLkEbhtuT-Wbr9IZ7RJqlwsBqZvAvh__bO&index=1'}
+              title={featuredVideo?.title || 'Basic Filipino Sign Language Tutorial (Part 1)'}
+              category={featuredVideo?.category || 'Common Expressions'}
               level={featuredVideo?.level || 1}
             />
           </div>
